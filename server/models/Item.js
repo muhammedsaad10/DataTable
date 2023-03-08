@@ -13,7 +13,7 @@ const ItemSchema = new Schema({
     type: String,
     required: true,
   },
-  totalprice: {
+  distributerPrice: {
     type: Number,
     required: true,
   },
@@ -25,7 +25,7 @@ const ItemSchema = new Schema({
     type: Number,
     required: true,
   },
-  chbl: {
+  packingCost: {
     type: Number,
     required: true,
   },
@@ -34,6 +34,10 @@ const ItemSchema = new Schema({
     required: true,
   },
   tax: {
+    type: Number,
+    required: true,
+  },
+  packingGst: {
     type: Number,
     required: true,
   },

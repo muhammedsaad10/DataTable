@@ -41,10 +41,46 @@ export const deleteItem = async (req, res, next) => {
 };
 //getALLitems
 
+// export const GetItems = async (req, res, next) => {
+//   console.log("req.params", req.query);
+//   try {
+//     const users = await Item.find();
+
+//     res.status(200).json(users);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };
+
 export const GetItems = async (req, res, next) => {
+  console.log("req.params", req.query);
   try {
-    const users = await Item.find();
-    res.status(200).json(users);
+    let { page, size, sort } = req.query;
+
+    // If the page is not applied in query
+    if (!page) {
+      // Make the Default value one
+      page = 1;
+    }
+
+    if (!size) {
+      size = 8;
+    }
+
+    //  We have to make it integer because
+    // the query parameter passed is string
+    const limit = parseInt(size);
+
+    const items = await Item.find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+    const count = await Item.countDocuments();
+    res.json({
+      items,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
